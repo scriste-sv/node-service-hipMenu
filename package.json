@@ -17,7 +17,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "ts-node ./src/index.ts",
-    "start": "nodemon ./dist/index.ts",
+    "start": "nodemon ./dist/index.js",
     "prod": "npm run ruild && npm run start"
   }
 }
