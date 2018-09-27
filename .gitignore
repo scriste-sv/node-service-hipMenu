@@ -1,6 +1,6 @@
 #build 
 /dist
-/src
+src/
 
 # Logs
 logs
