@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const App_1 = require("App");
-const app = new App_1.App();
+const app_1 = require("./app");
+const app = new app_1.App();
 const port = 3000;
 const server = app.app;
 server.listen(3000, () => {

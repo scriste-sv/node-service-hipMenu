@@ -4,28 +4,28 @@ export class Routes {
     public routes(app: any): void {
         app.get('/', (res: Response) => {
             res.status(200).send({
-                Message: 'Succesfull GET!'
+                message: 'Succesfull GET!'
             });
         });
         app.get('/meniu/:id', (req: Request, res: Response) => {
             res.send({
-                Id: req.params.id
+                id: req.params.id
             });
         });
         app.post('/', (req: Request, res: Response) => {
             res.send({
-                Message: req.body
+                message: req.body
             });
         });
         app.put('/meniu/:id', (req: Request, res: Response) => {
             return res.send({
-                Id: req.params.id,
-                Message: req.body
+                id: req.params.id,
+                message: req.body
             });
         });
         app.delete('/meniu/:id', (req: Request, res: Response) => {
             res.send({
-                Id: req.params.id
+                id: req.params.id
             })
         })
    }
