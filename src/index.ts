@@ -1,4 +1,4 @@
-import { App } from 'App';
+import { App } from './App';
 
 const app: App = new App();
 const port: number = 3000;
