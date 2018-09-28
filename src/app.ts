@@ -1,16 +1,21 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose'
-import { Routes } from './routes/Routes';
+import * as dotenv from 'dotenv';
+import { Routes } from './routes/routes';
+
+dotenv.config();
 
 export class App {
     public app: express.Application;
     public router: Routes =  new Routes();
 
+
     constructor() {
         this.app = express();
         this.config();
         this.router.routes(this.app);
+        this.configDatabase();
     }
 
     private config(): void {
@@ -19,6 +24,6 @@ export class App {
     }
 
     public configDatabase() {
-        mongoose.Promise =  global.Promise;
+        mongoose.connect(<string>process.env.DB_MONGO);
     }
 }
