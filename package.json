@@ -1,6 +1,6 @@
 {
   "name": "node-service-hipMenu",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "repository": "https://github.com/VladBolbo/node-service-hipMenu.git",
   "author": "Vlad",
@@ -17,11 +17,11 @@
     "ts-node": "^7.0.1",
     "typescript": "^3.0.3"
   },
+  "dependencies": {},
   "scripts": {
     "build": "tsc",
     "dev": "ts-node ./src/index.ts",
     "start": "nodemon ./dist/index.js",
     "prod": "npm run ruild && npm run start"
-  },
-  "dependencies": {}
+  }
 }

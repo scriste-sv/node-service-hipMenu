@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const MenuSchema: mongoose.Schema = new Schema(
+const RestaurantSchema: mongoose.Schema = new Schema(
     {
         type: { 
             type: String, 
@@ -16,4 +16,4 @@ const MenuSchema: mongoose.Schema = new Schema(
     }
 );
 
-export const Menu: mongoose.Model<mongoose.Document> = mongoose.model('Menu', MenuSchema);
+export const Restaurant: mongoose.Model<mongoose.Document> = mongoose.model('Restaurant', RestaurantSchema);

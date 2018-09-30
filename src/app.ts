@@ -24,6 +24,11 @@ export class App {
     }
 
     public configDatabase() {
-        mongoose.connect(<string>process.env.DB_MONGO);
+        mongoose.connect(<string>process.env.DB_MONGO, { useNewUrlParser: true }, err => {
+            if (err) {
+                throw new Error(err.message);
+            }
+            console.log('Connected to MongoDB...')
+        });
     }
 }
