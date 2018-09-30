@@ -16,6 +16,7 @@ export class Routes {
                 res.send(err.message);
             }
         });
+
         app.get('/restaurant/:id', async (req: Request, res: Response) => {
             try{
                 const result = await this.controller.read(req.params.id);
@@ -24,6 +25,7 @@ export class Routes {
                 res.send(err.message);
             }
         });
+
         app.post('restaurant/', async (req: Request, res: Response) => {
             try {
                 const result = await this.controller.create(req.body);
@@ -33,18 +35,24 @@ export class Routes {
             }
             
         });
+
         app.put('/restaurant/:id', async (req: Request, res: Response) => {
             try {
                 const result = await this.controller.update(req.params.id, req.body);
                 return res.status(200).json(result);                    
             } catch(err) {
-                return err;
+                res.send(err.message);
             }
         });
+        
         app.delete('/restaurant/:id', async (req: Request, res: Response) => {
-            const result = await this.controller.delete(req.params.id);
-            res.send(result);
-        })
+            try {
+                const result = await this.controller.delete(req.params.id);
+                return res.status(200).json(result);                    
+            } catch(err) {
+                res.send(err.message);
+            }
+        });
    }
 }
 
