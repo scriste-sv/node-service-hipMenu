@@ -3,10 +3,10 @@ import * as mongoose from 'mongoose';
 
 export class ControllerRestaurant {
 
-    public create(body: any): Promise<object> {
+    public create(body: Object): Promise<mongoose.Document> {
         const restaurant = new Restaurant(body);
         return new Promise((resolve, reject) => {
-            restaurant.save((err, restaurant) => {
+            restaurant.save((err: Object, restaurant: mongoose.Document) => {
                 if (err) {
                     reject(err);
                 }
@@ -15,31 +15,31 @@ export class ControllerRestaurant {
         });    
     }
 
-    public read(id: any): Promise<Document> {
+    public read(id: string): Promise<mongoose.Document> {
         return new Promise((resolve, reject) => {
-            Restaurant.findOne({ _id: id }, (err, restaurant) => {
+            Restaurant.findOne({ _id: id }, (err: Object, restaurant: mongoose.Document) => {
                 if (err) {
                     reject(err);    
                 }
-                resolve(<any>restaurant);
+                resolve(restaurant);
             });
         });
     } 
 
     public readAll(): Promise<mongoose.Document[]> {
         return new Promise((resolve, reject) => {
-            Restaurant.find((err, menus) => {
+            Restaurant.find((err: Object, restaurants: mongoose.Document[]) => {
                 if (err) {
                     reject(err);
                 }
-                resolve(menus);
+                resolve(restaurants);
             });
         });
     }
 
-    public update(id: any, body: any) {
+    public update(id: string, body: Object): Promise<mongoose.Document> {
         return new Promise((resolve, reject) => { 
-            Restaurant.updateOne({ _id: id }, body, (err, restaurant) => {
+            Restaurant.updateOne({ _id: id }, body, (err: Object, restaurant: mongoose.Document) => {
                 if(err) {
                     reject(err);
                 }
@@ -48,13 +48,13 @@ export class ControllerRestaurant {
         });
     }
 
-    public delete(id: any): Promise<Document> {
+    public delete(id: string): Promise<mongoose.Document> {
         return new Promise((resolve, reject) => {
-            Restaurant.findByIdAndDelete({ _id: id }, (err, restaurant) => {
+            Restaurant.findByIdAndDelete({ _id: id }, {}, (err: Object, restaurant) => {
                 if(err) {
                    reject(err);
                 }
-                resolve(<any>restaurant);
+                resolve(<mongoose.Document>restaurant);
             });
         });
     }

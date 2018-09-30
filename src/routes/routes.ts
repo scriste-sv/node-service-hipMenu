@@ -8,7 +8,7 @@ export class Routes {
 
     public routes(app: express.Application): void {
 
-        app.get('restaurant/', async (req: Request, res: Response) => {
+        app.get('/restaurant/', async (req: Request, res: Response) => {
             try{
                 const result = await this.controller.readAll();
                 res.json(result);
@@ -26,7 +26,7 @@ export class Routes {
             }
         });
 
-        app.post('restaurant/', async (req: Request, res: Response) => {
+        app.post('/restaurant/', async (req: Request, res: Response) => {
             try {
                 const result = await this.controller.create(req.body);
                 res.status(200).json(result);
@@ -44,7 +44,7 @@ export class Routes {
                 res.send(err.message);
             }
         });
-        
+
         app.delete('/restaurant/:id', async (req: Request, res: Response) => {
             try {
                 const result = await this.controller.delete(req.params.id);
