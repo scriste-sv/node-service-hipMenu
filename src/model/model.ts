@@ -2,17 +2,29 @@ import * as mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
+const menuSchema: mongoose.Schema = new Schema(
+    {
+        name: {
+            type: String,
+            required: true
+        }
+    }
+)
+
 const RestaurantSchema: mongoose.Schema = new Schema(
     {
-        type: { 
+        name: { 
             type: String, 
             required: true
         },
-        main: {
+        type: {
             type: String,
-            require: true
-        }    
-
+            required: true
+        },
+        menu: [{
+            type: menuSchema,
+            required: true 
+        }]
     }
 );
 
