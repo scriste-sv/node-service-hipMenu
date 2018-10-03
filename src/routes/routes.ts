@@ -74,6 +74,23 @@ export class Routes {
             }
         });
 
+        app.post('/res-menu/:id', async (req: Request, res: Response) => {
+            try {
+                const result = await this.controller.createMenu(req.params.id, req.body);
+                return res.status(200).json(result);
+            } catch (err) {
+                res.send(err.message);
+            }
+        });
+        
+        app.delete('/res-menu/:id', async (req: Request, res: Response) => {
+            try {
+                const result = await this.controller.deleteMenu(req.params.id);
+                return res.status(200).json(result); 
+            } catch(err) {
+                res.send(err.message);
+            }
+        });
    }
 }
 

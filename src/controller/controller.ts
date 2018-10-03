@@ -1,5 +1,6 @@
 import { Restaurant } from './../model/model';
 import * as mongoose from 'mongoose';
+import { resolve } from 'path';
 
 interface IMenu {
     _id: number,
@@ -106,10 +107,31 @@ export class ControllerRestaurant {
         })
     }
 
-    public createMenu(id: string, body: Object) {}
+    public createMenu(id: string, data: Object) {
+        return new Promise((resolve, reject) => {
+            Restaurant.updateOne({_id: id}, {$push : {menu: data}}, (err: Object, menu: IMenu) => {
+                if(err) {
+                    return reject(err);
+                }
+                return resolve(menu);
+            });
+        });
+    }
 
     public updateMenu(id: string, body: Object) {}
 
-    public deleteMenu(id: string) {}
+    public deleteMenu(id: number) {
+        return new Promise((resolve, reject) => {
+            Restaurant.updateOne(
+                { "menu": { "$elemMatch": { "_id": id }}},
+                { "$pull": { "menu": { "_id": id }}},
+                (err: Object, menu: IRestaurant) => {
+                if(err) {
+                    return reject(err);
+                }
+                return resolve(menu);
+            });
+        });
+    }
 
 }
