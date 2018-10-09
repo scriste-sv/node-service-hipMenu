@@ -10,7 +10,6 @@ export class App {
     public app: express.Application;
     public router: Routes =  new Routes();
 
-
     constructor() {
         this.app = express();
         this.config();

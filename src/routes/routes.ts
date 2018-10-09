@@ -8,6 +8,7 @@ export class Routes {
 
     public routes(app: express.Application): void {
 
+        // Restaurant 
         app.get('/restaurant/', async (req: Request, res: Response) => {
             try{
                 const result = await this.controller.readAll();
@@ -49,6 +50,52 @@ export class Routes {
             try {
                 const result = await this.controller.delete(req.params.id);
                 return res.status(200).json(result);                    
+            } catch(err) {
+                res.send(err.message);
+            }
+        });
+
+        // Menus
+        app.get('/res-menu/:menuId', async (req: Request, res: Response) => {
+            try {
+                const result = await this.controller.readMenu(req.params.menuId);
+                return res.status(200).json(result); 
+            } catch(err) {
+                res.send(err.message);
+            }
+        });
+
+        app.get('/res-menu/', async (req: Request, res: Response) => {
+            try {
+                const result = await this.controller.readAllMenus();
+                return res.status(200).json(result); 
+            } catch(err) {
+                res.send(err.message);
+            }
+        });
+
+        app.post('/res-menu/:restaurantId', async (req: Request, res: Response) => {
+            try {
+                const result = await this.controller.createMenu(req.params.restaurantId, req.body);
+                return res.status(200).json(result);
+            } catch (err) {
+                res.send(err.message);
+            }
+        });
+
+        app.put('/res-menu/:menuId', async (req: Request, res: Response) => {
+            try {
+                const result = await this.controller.updateMenu(req.params.menuId, req.body);
+                return res.status(200).json(result);
+            } catch (err) {
+                res.send(err.message);
+            }
+        });
+        
+        app.delete('/res-menu/:menuId', async (req: Request, res: Response) => {
+            try {
+                const result = await this.controller.deleteMenu(req.params.menuId);
+                return res.status(200).json(result); 
             } catch(err) {
                 res.send(err.message);
             }
