@@ -1,5 +1,4 @@
 import { Restaurant } from './../model/restaurant-model';
-import * as mongoose from 'mongoose';
 
 interface IMenu {
     _id: number,

@@ -17,6 +17,10 @@ const RestaurantSchema: mongoose.Schema = new Schema(
             type: String, 
             required: true
         },
+        owner: {
+            type: String,
+            required: true
+        },
         type: {
             type: String,
             required: true

@@ -58,6 +58,11 @@ export class Routes {
             }
         });
 
+        app.get('/search-restaurant', async (req: Request, res: Response) => {
+            console.log(req.query);
+            res.status(200).json(req.query);   
+        })
+
         // Menus
         app.get('/res-menu/:menuId', async (req: Request, res: Response) => {
             try {
