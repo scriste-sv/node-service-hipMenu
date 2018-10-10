@@ -12,11 +12,19 @@ class Crypto {
     }
 }
 
-export const encryptMiddleware =  function encrypt(req: Request, res: Response, next: NextFunction): void {
+export const encryptMiddleware =  function(req: Request, res: Response, next: NextFunction): void {
     const cript: Crypto = new Crypto();
     if(req.body.owner) {
         req.body.owner = cript.encryptMD5(req.body.name);
     }
+    console.log(res);
     next();
 }
 
+export const errorMiddleware = function(err: Error, req: Request, res: Response, next: NextFunction): void {
+    if(err){
+        res.status(500).send(err.stack);
+        // next(err);
+    } 
+    
+  };

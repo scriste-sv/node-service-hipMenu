@@ -14,6 +14,7 @@ export class Routes {
         // Restaurant 
         app.get('/restaurant/', async (req: Request, res: Response) => {
             try{
+                console.log(res);
                 const result = await this.controllerRestaurant.readAll();
                 res.json(result);
             } catch(err) {
@@ -59,9 +60,13 @@ export class Routes {
         });
 
         app.get('/search-restaurant', async (req: Request, res: Response) => {
-            console.log(req.query);
-            res.status(200).json(req.query);   
-        })
+            try {
+                const result =await this.controllerRestaurant.search(req.query);
+                return res.status(200).json(result);
+            } catch(err) {
+                res.send(err.message);
+            }
+        });
 
         // Menus
         app.get('/res-menu/:menuId', async (req: Request, res: Response) => {

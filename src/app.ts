@@ -2,8 +2,8 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose'
 import * as dotenv from 'dotenv';
-import { Routes } from './routes/restaurant-routes';
-import { encryptMiddleware } from './utils/middleware';
+import { Routes } from './routes/routes';
+import { encryptMiddleware, errorMiddleware } from './utils/middleware';
 
 dotenv.config();
 
@@ -19,6 +19,7 @@ export class App {
     }
 
     private config(): void {
+        this.app.use(errorMiddleware);
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(encryptMiddleware);

@@ -70,4 +70,16 @@ export class ControllerRestaurant {
         });
     }
 
+    public search(data: any) {
+        return new Promise((resolve, reject) => {
+            console.log(new RegExp(data.name));
+            Restaurant.find({name: new RegExp(data.name, 'i')}, (err, data) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(data);
+            });
+        });
+    }
+
 }
