@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Controller deletes and returns a restaurant entity after an id search 1`] = `
+exports[`Controller Restaurant deletes and returns a restaurant entity after an id search 1`] = `
 Array [
   Object {
     "menu": Object {
