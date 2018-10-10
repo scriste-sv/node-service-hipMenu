@@ -25,8 +25,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node ./src/index.ts",
-    "start": "nodemon --watch /.dist --exec ./dist/index.js",
+    "start": "ts-node ./src/index.ts",
+    "dev": "nodemon --watch src/**/*.ts --ignore tests/**/*.spec.ts --exec",
     "prod": "npm run ruild && npm run start",
     "test": "jest --verbose --coverage",
     "test:update": "jest --verbose --coverage --updateSnapshot",
@@ -34,3 +34,4 @@
     "coverage": "jest --verbose --coverage && open ./coverage/lcov-report/index.html"
   }
 }
+

@@ -14,7 +14,6 @@ export class Routes {
         // Restaurant 
         app.get('/restaurant/', async (req: Request, res: Response) => {
             try{
-                console.log(res);
                 const result = await this.controllerRestaurant.readAll();
                 res.json(result);
             } catch(err) {

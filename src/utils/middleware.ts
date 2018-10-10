@@ -17,7 +17,6 @@ export const encryptMiddleware =  function(req: Request, res: Response, next: Ne
     if(req.body.owner) {
         req.body.owner = cript.encryptMD5(req.body.name);
     }
-    console.log(res);
     next();
 }
 
@@ -26,5 +25,4 @@ export const errorMiddleware = function(err: Error, req: Request, res: Response,
         res.status(500).send(err.stack);
         // next(err);
     } 
-    
   };
