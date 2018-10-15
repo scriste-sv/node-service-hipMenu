@@ -1,13 +1,14 @@
 import { Request, Response } from 'express';
 import * as express from 'express';
-import { ControllerRestaurant } from '../controllers/controller-restaurant';
-import { ControllerMenu } from '../controllers/controller-menu';
+import { RestaurantController } from '../controllers/controller-restaurant'
+import { MenuController } from '../controllers/controller-menu';
+import { Crypto } from '../utils/middleware';
 
 export class Routes {
 
-    public controllerRestaurant: ControllerRestaurant =  new ControllerRestaurant();
-    public controllerMenu: ControllerMenu =  new ControllerMenu();
-
+    public controllerRestaurant: RestaurantController =  new RestaurantController();
+    public controllerMenu: MenuController =  new MenuController();
+    public cript: Crypto = new Crypto();
 
     public routes(app: express.Application): void {
 
@@ -15,6 +16,9 @@ export class Routes {
         app.get('/restaurant/', async (req: Request, res: Response) => {
             try{
                 const result = await this.controllerRestaurant.readAll();
+
+                result.forEach(element => (<any>element).name = this.cript.encryptSHA1((<any>element).name));
+                
                 res.json(result);
             } catch(err) {
                 res.send(err.message);
@@ -24,6 +28,9 @@ export class Routes {
         app.get('/restaurant/:id', async (req: Request, res: Response) => {
             try{
                 const result = await this.controllerRestaurant.read(req.params.id);
+                
+                (<any>result).owner = this.cript.encryptSHA1((<any>result).owner);
+                
                 res.json(result);
             } catch(err) {
                 res.send(err.message);

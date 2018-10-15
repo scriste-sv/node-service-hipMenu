@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import * as crypto from 'crypto';
 
-class Crypto {
+export class Crypto {
 
     public encryptMD5(text: string): string {
         return crypto.createHash('md5').update(text).digest("hex");
@@ -26,3 +26,4 @@ export const errorMiddleware = function(err: Error, req: Request, res: Response,
         // next(err);
     } 
   };
+

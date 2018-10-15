@@ -1,5 +1,6 @@
 import { Restaurant } from './../model/restaurant-model';
 import * as mongoose from 'mongoose';
+import { filterRestaurants } from './../utils/filterRestaurants';
 
 interface IMenu {
     _id: number,
@@ -12,7 +13,7 @@ interface IRestaurant {
     menu: IMenu[]
 }
 
-export class ControllerRestaurant {
+export class RestaurantController {
 
     //Restaurant
     public create(data: Object): Promise<mongoose.Document> {
@@ -28,7 +29,9 @@ export class ControllerRestaurant {
 
     public read(id: string): Promise<mongoose.Document> {
         return new Promise((resolve, reject) => {
-            Restaurant.findOne({ _id: id }, (err: Object, restaurant: mongoose.Document) => {
+            const query: Object = { _id: id };
+
+            Restaurant.findOne(query, (err: Object, restaurant: mongoose.Document) => {
                 if (err) {
                     reject(err);    
                 }
@@ -39,6 +42,7 @@ export class ControllerRestaurant {
 
     public readAll(): Promise<mongoose.Document[]> {
         return new Promise((resolve, reject) => {
+
             Restaurant.find((err: Object, restaurants: mongoose.Document[]) => {
                 if (err) {
                     reject(err);
@@ -50,7 +54,9 @@ export class ControllerRestaurant {
 
     public update(id: string, data: Object): Promise<mongoose.Document> {
         return new Promise((resolve, reject) => { 
-            Restaurant.updateOne({ _id: id }, data, (err: Object, restaurant: mongoose.Document) => {
+            const query: Object = { _id: id };
+
+            Restaurant.updateOne(query, data, (err: Object, restaurant: mongoose.Document) => {
                 if(err) {
                     reject(err);
                 }
@@ -61,7 +67,9 @@ export class ControllerRestaurant {
 
     public delete(id: string): Promise<mongoose.Document> {
         return new Promise((resolve, reject) => {
-            Restaurant.findByIdAndDelete({ _id: id }, {}, (err: Object, restaurant) => {
+            const query: Object = { _id: id };
+
+            Restaurant.findByIdAndDelete(query, {}, (err: Object, restaurant) => {
                 if(err) {
                    reject(err);
                 }
@@ -72,12 +80,19 @@ export class ControllerRestaurant {
 
     public search(data: any) {
         return new Promise((resolve, reject) => {
-            console.log(new RegExp(data.name));
-            Restaurant.find({name: new RegExp(data.name, 'i')}, (err, data) => {
+            const queryName = data.name;
+            const query: Object = { name: new RegExp(data.name, 'i') };
+            // const condition: Object = { 
+            //     "name": data.name,
+            //     "$expr": { "$gt": [ { "$strLenCP": "$name" }, "$name/2" ] } 
+            // }
+            //console.log(data.name);
+            Restaurant.find(query, (err, data) => {
+                const result = filterRestaurants(data, queryName);
                 if (err) {
                     reject(err);
                 }
-                resolve(data);
+                resolve(result);
             });
         });
     }

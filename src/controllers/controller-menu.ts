@@ -11,12 +11,14 @@ interface IRestaurant {
     menu: IMenu[]
 }
 
-export class ControllerMenu {
+export class MenuController {
 
     //Menu
     public readMenu(id: number): Promise<IMenu> {
         return new Promise((resolve, reject) => {
-            Restaurant.find({ "menu._id": id }, (err: Object, entities: IRestaurant[]) => {
+            const query: Object = { "menu._id": id };
+
+            Restaurant.find(query, (err: Object, entities: IRestaurant[]) => {
                 if (err) {
                     return reject(err);    
                 }
@@ -50,7 +52,9 @@ export class ControllerMenu {
 
     public createMenu(id: string, data: Object) {
         return new Promise((resolve, reject) => {
-            Restaurant.updateOne({_id: id}, {$push : {menu: data}}, (err: Object, menu: IMenu) => {
+            const query: Object = {_id: id};
+
+            Restaurant.updateOne(query, {$push : {menu: data}}, (err: Object, menu: IMenu) => {
                 if(err) {
                     return reject(err);
                 }
@@ -61,14 +65,15 @@ export class ControllerMenu {
 
     public updateMenu(id: string, data: {name: string}) {
         return new Promise((resolve, reject) => {
-            Restaurant.updateOne(
-                { "menu": { "$elemMatch": { "_id": id }}},
-                { "$set": { "menu.$": {"_id": id , "name": data.name}}},
-                (err: Object, menu: IRestaurant) =>{
-                    if(err) {
-                        return reject(err);
-                    }
-                    return resolve(menu);
+            const query: Object = { "menu": { "$elemMatch": { "_id": id }}};
+            const condition: Object = { "$set": { "menu.$": {"_id": id , "name": data.name}}};
+
+
+            Restaurant.updateOne(query,condition,(err: Object, menu: IRestaurant) =>{
+                if(err) {
+                    return reject(err);
+                }
+                return resolve(menu);
                 }
             );
         })
@@ -76,14 +81,14 @@ export class ControllerMenu {
 
     public deleteMenu(id: number) {
         return new Promise((resolve, reject) => {
-            Restaurant.updateOne(
-                { "menu": { "$elemMatch": { "_id": id }}},
-                { "$pull": { "menu": { "_id": id }}},
-                (err: Object, menu: IRestaurant) => {
-                    if(err) {
-                        return reject(err);
-                    }
-                    return resolve(menu);
+            const query: Object = { "menu": { "$elemMatch": { "_id": id }}};
+            const condition: Object = { "$pull": { "menu": { "_id": id }}};
+
+            Restaurant.updateOne(query, condition,(err: Object, menu: IRestaurant) => {
+                if(err) {
+                    return reject(err);
+                }
+                return resolve(menu);
             });
         });
     }
