@@ -82,13 +82,10 @@ export class RestaurantController {
         return new Promise((resolve, reject) => {
             const queryName = data.name;
             const query: Object = { name: new RegExp(data.name, 'i') };
-            // const condition: Object = { 
-            //     "name": data.name,
-            //     "$expr": { "$gt": [ { "$strLenCP": "$name" }, "$name/2" ] } 
-            // }
-            //console.log(data.name);
+            
             Restaurant.find(query, (err, data) => {
                 const result = filterRestaurants(data, queryName);
+                
                 if (err) {
                     reject(err);
                 }

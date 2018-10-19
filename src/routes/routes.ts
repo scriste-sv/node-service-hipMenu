@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import * as express from 'express';
 import { RestaurantController } from '../controllers/controller-restaurant'
 import { MenuController } from '../controllers/controller-menu';
-import { Crypto } from '../utils/middleware';
+import { Crypto } from '../utils/hash';
 
 export class Routes {
 
@@ -40,6 +40,9 @@ export class Routes {
         app.post('/restaurant/', async (req: Request, res: Response) => {
             try {
                 const result = await this.controllerRestaurant.create(req.body);
+             
+                (<any>result).owner = this.cript.encryptMD5((<any>result).owner);
+
                 res.status(200).json(result);
             } catch(err) {
                 res.send(err.message);
