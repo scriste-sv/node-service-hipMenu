@@ -25,6 +25,7 @@ export class App {
     }
 
     public configDatabase() {
+        //use promise db
         mongoose.connect(<string>process.env.DB_MONGO, { useNewUrlParser: true }, err => {
             if (err) {
                 throw new Error(err.message);

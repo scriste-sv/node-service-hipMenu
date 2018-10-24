@@ -78,18 +78,17 @@ export class RestaurantController {
         });
     }
 
-    public search(data: any) {
+    public searchRestaurant(name: string) {
         return new Promise((resolve, reject) => {
-            const queryName = data.name;
-            const query: Object = { name: new RegExp(data.name, 'i') };
+            const query: Object = { name: new RegExp(name, 'i') };
             
             Restaurant.find(query, (err, data) => {
-                const result = filterRestaurants(data, queryName);
+                //const result = filterRestaurants(data, name);
                 
                 if (err) {
                     reject(err);
                 }
-                resolve(result);
+                resolve(data);
             });
         });
     }

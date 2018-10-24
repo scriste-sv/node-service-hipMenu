@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as express from 'express';
-import { RestaurantController } from '../controllers/controller-restaurant'
+import { RestaurantController } from '../controllers/restaurant-controller'
 import { MenuController } from '../controllers/controller-menu';
 import { Crypto } from '../utils/hash';
 
@@ -17,8 +17,10 @@ export class Routes {
             try{
                 const result = await this.controllerRestaurant.readAll();
 
+                // aes-256 - owner, 
+
                 result.forEach(element => (<any>element).name = this.cript.encryptSHA1((<any>element).name));
-                
+                // return md5
                 res.json(result);
             } catch(err) {
                 res.send(err.message);
@@ -37,11 +39,13 @@ export class Routes {
             }
         });
 
+
+
         app.post('/restaurant/', async (req: Request, res: Response) => {
             try {
                 const result = await this.controllerRestaurant.create(req.body);
              
-                (<any>result).owner = this.cript.encryptMD5((<any>result).owner);
+                // (<any>result).owner = this.cript.encryptMD5((<any>result).owner); save plain text db
 
                 res.status(200).json(result);
             } catch(err) {
@@ -70,12 +74,15 @@ export class Routes {
 
         app.get('/search-restaurant', async (req: Request, res: Response) => {
             try {
-                const result =await this.controllerRestaurant.search(req.query);
+                const name: string = req.query.name;
+                const result = await this.controllerRestaurant.searchRestaurant(name);
                 return res.status(200).json(result);
             } catch(err) {
                 res.send(err.message);
             }
         });
+
+
 
         // Menus
         app.get('/res-menu/:menuId', async (req: Request, res: Response) => {
