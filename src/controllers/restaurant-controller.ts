@@ -1,96 +1,74 @@
 import { Restaurant } from './../model/restaurant-model';
-import * as mongoose from 'mongoose';
-import { filterRestaurants } from './../utils/filterRestaurants';
-
-interface IMenu {
-    _id: number,
-    name: string
-}
-interface IRestaurant {
-    _id: number,
-    name: string,
-    type: string,
-    menu: IMenu[]
-}
+//import { filterRestaurants } from './../utils/filterRestaurants';
 
 export class RestaurantController {
 
     //Restaurant
-    public create(data: Object): Promise<mongoose.Document> {
-        return new Promise((resolve, reject) => {
-            Restaurant.create(data, (err: Error, restaurant: mongoose.Document) => {
-                if (err) {
-                    reject(err);
-                }
-                resolve(restaurant);
+    public create(data: Object) {
+        return Restaurant.create(data)
+            .then(result => {
+                return result;
+            }) 
+            .catch(err => {
+                return err;
             });
-        });    
     }
 
-    public read(id: string): Promise<mongoose.Document> {
-        return new Promise((resolve, reject) => {
-            const query: Object = { _id: id };
+    public read(id: string) {
+        const query: Object = { _id: id };
 
-            Restaurant.findOne(query, (err: Object, restaurant: mongoose.Document) => {
-                if (err) {
-                    reject(err);    
-                }
-                resolve(restaurant);
+        return Restaurant.findOne(query)
+            .then(result => {
+                return result;
+            }) 
+            .catch(err => {
+                return err;
             });
-        });
     } 
 
-    public readAll(): Promise<mongoose.Document[]> {
-        return new Promise((resolve, reject) => {
-
-            Restaurant.find((err: Object, restaurants: mongoose.Document[]) => {
-                if (err) {
-                    reject(err);
-                }
-                resolve(restaurants);
+    public readAll() {
+        return Restaurant.find()
+            .then(result => {
+                return result;
+            }) 
+            .catch(err => {
+                return err;
             });
-        });
     }
 
-    public update(id: string, data: Object): Promise<mongoose.Document> {
-        return new Promise((resolve, reject) => { 
-            const query: Object = { _id: id };
+    public update(id: string, data: Object) {
+        const query: Object = { _id: id };
 
-            Restaurant.updateOne(query, data, (err: Object, restaurant: mongoose.Document) => {
-                if(err) {
-                    reject(err);
-                }
-                resolve(restaurant);
+        return Restaurant.updateOne(query, data)
+            .then(result => {
+                return result;
+            }) 
+            .catch(err => {
+                return err;
             });
-        });
     }
 
-    public delete(id: string): Promise<mongoose.Document> {
-        return new Promise((resolve, reject) => {
-            const query: Object = { _id: id };
-
-            Restaurant.findByIdAndDelete(query, {}, (err: Object, restaurant) => {
-                if(err) {
-                   reject(err);
-                }
-                resolve(<mongoose.Document>restaurant);
+    public delete(id: string) {
+        const query: Object = { _id: id };
+        return Restaurant.findByIdAndDelete(query, {})
+            .then(result => {
+                return result;
+            }) 
+            .catch(err => {
+                return err;
             });
-        });
     }
 
     public searchRestaurant(name: string) {
-        return new Promise((resolve, reject) => {
-            const query: Object = { name: new RegExp(name, 'i') };
-            
-            Restaurant.find(query, (err, data) => {
-                //const result = filterRestaurants(data, name);
-                
-                if (err) {
-                    reject(err);
-                }
-                resolve(data);
+        const query: Object = { name: new RegExp(name, 'i') };
+
+        return Restaurant.find(query)
+            .then(result => {
+                return result;
+            }) 
+            .catch(err => {
+                return err;
             });
-        });
     }
 
 }

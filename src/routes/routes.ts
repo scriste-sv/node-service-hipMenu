@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import * as express from 'express';
 import { RestaurantController } from '../controllers/restaurant-controller'
-import { MenuController } from '../controllers/controller-menu';
-import { Crypto } from '../utils/hash';
+import { MenuController } from '../controllers/menu-controller';
+import { Crypto } from '../helpers/hash';
 
 export class Routes {
 
@@ -17,10 +17,8 @@ export class Routes {
             try{
                 const result = await this.controllerRestaurant.readAll();
 
-                // aes-256 - owner, 
+                result.forEach((element:any) => element.name = this.cript.encryptMD5(element.name));
 
-                result.forEach(element => (<any>element).name = this.cript.encryptSHA1((<any>element).name));
-                // return md5
                 res.json(result);
             } catch(err) {
                 res.send(err.message);
@@ -31,7 +29,7 @@ export class Routes {
             try{
                 const result = await this.controllerRestaurant.read(req.params.id);
                 
-                (<any>result).owner = this.cript.encryptSHA1((<any>result).owner);
+                (<any>result).owner = this.cript.encryptMD5(result.owner);
                 
                 res.json(result);
             } catch(err) {
@@ -45,7 +43,7 @@ export class Routes {
             try {
                 const result = await this.controllerRestaurant.create(req.body);
              
-                // (<any>result).owner = this.cript.encryptMD5((<any>result).owner); save plain text db
+                (<any>result).owner = this.cript.encryptSHA(result.owner);
 
                 res.status(200).json(result);
             } catch(err) {

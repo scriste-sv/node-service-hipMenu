@@ -26,7 +26,7 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node ./src/index.ts",
-    "dev": "nodemon --watch 'src/**/*.ts' --ignore 'tests/**/*.spec.ts' --exec",
+    "dev": "nodemon --watch src/**/*.ts --ignore tests/**/*.spec.ts --exec",
     "prod": "npm run ruild && npm run start",
     "test": "jest --verbose --coverage",
     "test:update": "jest --verbose --coverage --updateSnapshot",

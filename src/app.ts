@@ -3,7 +3,7 @@ import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose'
 import * as dotenv from 'dotenv';
 import { Routes } from './routes/routes';
-import { errorMiddleware } from './utils/error-middleware';
+import { errorMiddleware } from './middlawares/error-middleware';
 
 dotenv.config();
 
@@ -26,6 +26,7 @@ export class App {
 
     public configDatabase() {
         //use promise db
+        (<any>mongoose).Promise = global.Promise;
         mongoose.connect(<string>process.env.DB_MONGO, { useNewUrlParser: true }, err => {
             if (err) {
                 throw new Error(err.message);
