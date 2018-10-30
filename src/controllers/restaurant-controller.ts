@@ -1,5 +1,4 @@
 import { Restaurant } from './../model/restaurant-model';
-//import { filterRestaurants } from './../utils/filterRestaurants';
 
 export class RestaurantController {
 

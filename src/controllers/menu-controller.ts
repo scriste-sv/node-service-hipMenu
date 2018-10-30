@@ -13,13 +13,13 @@ export class MenuController {
 
         return Restaurant.find(query)
             .then(entities => {
-                entities.forEach((list) => {
-                    (<any>list).menu.forEach((menu: IMenu) => {
+                return entities.map((list) => {
+                    return (<any>list).menu.map((menu: IMenu) => {
                         if (menu._id == id) {
                             return menu;
                         }
-                    });
-                });
+                    }).pop();
+                }).pop();
             }) 
             .catch(err => {
                 return err;
