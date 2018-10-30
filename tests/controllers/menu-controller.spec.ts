@@ -1,13 +1,13 @@
-import { ControllerMenu } from '../../src/controllers/controller-menu';
+import { MenuController } from '../../src/controllers/menu-controller';
 import { Restaurant } from '../../src/model/restaurant-model';
 import { objectTest, objectTestUpdated } from '../objectTest';
 
 describe('Controller Restaurant', () => {
-    let controller: ControllerMenu;
+    let controller: MenuController;
     let objectMock: Object;
 
     beforeEach(() => {
-        controller = new ControllerMenu();
+        controller = new MenuController();
         objectMock = objectTest;
         Restaurant.create = jest.fn();
         Restaurant.findOne = jest.fn();
@@ -18,17 +18,13 @@ describe('Controller Restaurant', () => {
 
     afterEach(() => {
         jest.resetAllMocks();
-        // controller = undefined;
-        // objectMock = undefined;
     });
 
     // Menus
 
     it('returns a menu entity', async () => {
         (<any>objectMock).menu[2]._id = '123';
-        (<jest.Mock>Restaurant.find).mockImplementation((_n ,callback) => {
-            return callback(null, [objectMock]);
-        });
+        (<jest.Mock>Restaurant.find).mockResolvedValue([objectMock]);
 
         const result = await controller.readMenu(123);
 
@@ -37,9 +33,7 @@ describe('Controller Restaurant', () => {
 
     it('returns all menu entity', async () => {
         delete (<any>objectMock).menu[2]._id;
-        (<jest.Mock>Restaurant.find).mockImplementation((callback) => {
-            return callback(null, [objectMock]);
-        });
+        (<jest.Mock>Restaurant.find).mockResolvedValue([objectMock]);
 
         const result = await controller.readAllMenus();
 
@@ -47,9 +41,7 @@ describe('Controller Restaurant', () => {
     });
 
     it('creates and returns a menu entity', async () => {
-        (<jest.Mock>Restaurant.updateOne).mockImplementation((_n,_m, callback) => {
-            return callback(null, {name: 'TEST'});
-        });
+        (<jest.Mock>Restaurant.updateOne).mockResolvedValue({name: 'TEST'});
 
         const result = await controller.createMenu('123', {name: 'TEST'});
 
@@ -57,9 +49,7 @@ describe('Controller Restaurant', () => {
     });
 
     it('updates a menu entity', async () => {
-        (<jest.Mock>Restaurant.updateOne).mockImplementation((_n, _m, callback) => {
-            return callback(null, (<any>objectTestUpdated).menu[2]);
-        });
+        (<jest.Mock>Restaurant.updateOne).mockResolvedValue((<any>objectTestUpdated).menu[2]);
 
         const result = await controller.updateMenu('1234', (<any>objectMock).menu[2]);
 
@@ -67,9 +57,7 @@ describe('Controller Restaurant', () => {
     });
     
     it('deletes and returns a restaurant entity after an id search', async () => {
-        (<jest.Mock>Restaurant.updateOne).mockImplementation((_n, _m, callback) => {
-            return callback(null, null);
-        });
+        (<jest.Mock>Restaurant.updateOne).mockResolvedValue(null);
 
         await controller.deleteMenu(1234);
 
